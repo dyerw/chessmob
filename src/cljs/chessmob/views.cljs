@@ -1,19 +1,33 @@
 (ns chessmob.views
     (:require [re-frame.core :as re-frame]))
 
-(defn tile-view [color tile]
-  [:div {:style {:backgroundColor color :display "inline-block" 
-                 :height "40px" :width "40px"}}
+(def tile-size 60)
+(def tile-size-px (str tile-size "px"))
+
+(defn tile-view [color row-index col-index tile]
+  [:div {:on-click #(println row-index col-index)
+         :key   col-index
+         :style {:backgroundColor color :display "inline-block" 
+                 :color (if (= color "white") "black" "white")
+                 :height tile-size-px :width tile-size-px}}
         (str (:type tile))])
 
-(defn row-view [first-color row]
-  [:div {:style {:height "40px"}} (map tile-view 
-                                       (cycle (if (= first-color "white")
-                                                  ["white" "black"]
-                                                  ["black" "white"])) 
-                                       row)])
+(defn row-view [first-color row-index row]
+  [:div {:key   row-index
+         :style {:height tile-size-px}} 
+        (map tile-view 
+             (cycle (if (= first-color "white")
+                      ["white" "black"]
+                      ["black" "white"])) 
+             (repeat row-index)
+             (range (count row))
+             row)])
 
 (defn main-panel []
   (let [board (re-frame/subscribe [:board])]
     (fn []
-      [:div (map row-view (cycle ["white" "black"]) @board)])))
+      [:div (map row-view 
+                 (cycle ["white" "black"]) 
+                 (range (count @board)) 
+                 @board)])))
+
