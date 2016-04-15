@@ -6,3 +6,9 @@
  :initialize-db
  (fn  [_ _]
    db/default-db))
+
+(re-frame/register-handler
+ :tile-clicked
+ (fn [db [_ coordinates]]
+   (println coordinates)
+   (assoc db :selected-tile coordinates)))

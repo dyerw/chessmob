@@ -3,11 +3,12 @@
     (:require [re-frame.core :as re-frame]))
 
 (re-frame/register-sub
+  :selected-tile
+  (fn [db]
+    (reaction (:selected-tile @db))))
+
+(re-frame/register-sub
   :board
   (fn [db]
     (reaction (:board @db))))
 
-(re-frame/register-sub
- :name
- (fn [db]
-   (reaction (:name @db))))

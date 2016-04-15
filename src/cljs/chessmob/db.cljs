@@ -17,6 +17,6 @@
     {:type 'knight :color 'white} {:type 'rook :color 'white}]])
 
 (def default-db
-  {:name "Dale"
-   :board default-board})
+  {:board default-board
+   :selected-tile nil})
 
