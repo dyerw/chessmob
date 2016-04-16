@@ -10,14 +10,10 @@
                                (= (:y selected-tile) col-index))]
     [:div {:on-click #(re-frame/dispatch [:tile-clicked {:x row-index :y col-index}])
            :key   col-index
-           :style (merge {:backgroundColor color :display "inline-block" 
-                          :color (if (= color "white") "black" "white")
-                          :height tile-size-px :width tile-size-px}
-                         ;; Check if this is the selected tile and give it a 
-                         ;; border if it is
-                         (if is-selected-tile 
-                             {:border "5px solid green"}
-                             {}))}
+           :style {:backgroundColor (if is-selected-tile "green" color) 
+                   :display "inline-block" 
+                   :color (if (= color "white") "black" "white")
+                   :height tile-size-px :width tile-size-px}}
           (str (:type tile))]))
 
 (defn row-view [selected-tile first-color row-index row]
